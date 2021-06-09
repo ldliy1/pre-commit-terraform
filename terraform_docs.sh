@@ -139,7 +139,9 @@ terraform_docs() {
       terraform-docs md $args "$tmp_file_docs_tf" > "$tmp_file"
       rm -f "$tmp_file_docs_tf"
     fi
-
+    
+    lsof $tmp_file
+    lsof $text_file
     # Replace content between markers with the placeholder - https://stackoverflow.com/questions/1212799/how-do-i-extract-lines-between-two-line-delimiters-in-perl#1212834
     perl -ibk -ne 'if (/BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK/../END OF PRE-COMMIT-TERRAFORM DOCS HOOK/) { print $_ if /BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK/; print "I_WANT_TO_BE_REPLACED\n$_" if /END OF PRE-COMMIT-TERRAFORM DOCS HOOK/;} else { print $_ }' "$text_file"
 
